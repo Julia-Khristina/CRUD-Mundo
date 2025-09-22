@@ -10,7 +10,7 @@ idioma varchar(50)
 );
 
 create table Cidades (
-id_cidades int auto_increment primary key,
+id_cidade int auto_increment primary key,
 nome varchar(100) not null,
 populacao int not null,
 id_pais int not null,
