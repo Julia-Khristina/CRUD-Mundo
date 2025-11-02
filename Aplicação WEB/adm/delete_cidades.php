@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 include '../conexao.php';
 
 if (isset($_GET['id'])){
@@ -7,12 +8,17 @@ if (isset($_GET['id'])){
     $sql = "DELETE FROM Cidades WHERE id=$id";
 
     if ($conexao -> query($sql) === TRUE){
-        echo "Registro excluído com sucesso!";
+        $_SESSION['feedback_mensagem'] = "Cidade excluída com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
+        header("Location: cidades.php"); 
+        exit();
     } else{
-        echo "Erro ao excluir registro: " . $conexao->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao excluir: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: cidades.php"); 
+        exit();
     }
 
     $conexao ->close();
-    header("Location: cidades.php");
 }
 ?>

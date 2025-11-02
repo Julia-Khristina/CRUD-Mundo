@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../conexao.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,10 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$nome', '$email', '$senha_hash', '$status', '$tipo', '$primeiro_acesso_flag')";
 
     if ($conexao->query($sql) === TRUE) {
+        $_SESSION['feedback_mensagem'] = "Cadastro realizado com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: usuario.php"); 
         exit();
     } else {
-        echo "Erro ao cadastrar usuário: " . $conexao->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao cadastrar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: usuario.php"); 
+        exit();
     }
 
     $conexao->close();

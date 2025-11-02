@@ -1,5 +1,12 @@
 <?php
+session_start();
 include '../conexao.php'; 
+
+$feedback_mensagem = $_SESSION['feedback_mensagem'] ?? null;
+$feedback_tipo = $_SESSION['feedback_tipo'] ?? null;
+
+unset($_SESSION['feedback_mensagem']);
+unset($_SESSION['feedback_tipo']);
 
 $sql_paises = "SELECT id, nome FROM Paises ORDER BY nome ASC";
 $result_paises = $conexao->query($sql_paises);
@@ -27,7 +34,7 @@ $result_cidades = $conexao->query($sql_cidades);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Aquestre</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -37,14 +44,54 @@ $result_cidades = $conexao->query($sql_cidades);
     <!-- Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <style>
+        /* Estilos básicos para o autocomplete (você pode mover isso para dashboard.css) */
+        .autocomplete-container {
+            position: relative;
+            display: inline-block;
+            width: 100%; /* Ajuste conforme necessário */
+        }
+        .autocomplete-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover,
+        .autocomplete-active {
+            background-color: #e9e9e9;
+        }
+        .autocomplete-items strong {
+            color: #961b80; 
+        }
+    </style>
+
 </head>
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle" style="display: flex; align-items: center; justify-content: space-between;">
-            <!-- Ícone do menu -->
+
             <i class="bi bi-list" id="header-toggle" style="font-size: 1.5rem; color: #961b80;"></i>
-        
-            <!-- Texto "Dashboard Aquestre" -->
+    
             <div style="display: flex; align-items: center; margin-left: 1rem;">
                 <p style="margin: 0; font-size: 1.2rem; color: #000000;">Cidades</p>
             </div>
@@ -53,11 +100,9 @@ $result_cidades = $conexao->query($sql_cidades);
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <!-- Logo e Nome -->
             <div>
-                <!-- Lista de Navegação -->
                 <div class="nav_list">
-                    <a href="dashboard.php" class="nav_link active">
+                    <a href="dashboard.php" class="nav_link">
                         <i class="bi bi-house-door-fill"></i>
                         <span class="nav_name">Início</span>
                     </a>
@@ -69,7 +114,7 @@ $result_cidades = $conexao->query($sql_cidades);
                         <i class="bi bi-globe2"></i>
                         <span class="nav_name">Países</span>
                     </a>
-                    <a href="cidades.php" class="nav_link">
+                    <a href="cidades.php" class="nav_link active">
                         <i class="bi bi-buildings-fill"></i>
                         <span class="nav_name">Cidades</span>
                     </a>
@@ -90,7 +135,13 @@ $result_cidades = $conexao->query($sql_cidades);
         <h3 style='color:rgb(255, 255, 255);'>Cadastrar cidade</h3> <!-- Cor personalizada aqui -->
     </button>
     
-    <!--Container Main start-->
+    <?php if ($feedback_mensagem): ?>
+        <div id="toast-feedback" 
+            class="toast-base toast-<?= htmlspecialchars($feedback_tipo) ?>" 
+            data-message="<?= htmlspecialchars($feedback_mensagem) ?>">
+        </div>
+    <?php endif; ?>
+    
     <div class="style-tabela">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">                      
             <tbody>
@@ -145,19 +196,13 @@ $result_cidades = $conexao->query($sql_cidades);
                     <input type="populacao" name="populacao" id="cidade-populacao" required><br>
 
                     <label for="pais">País</label><br>
-                    <select name="pais" id="cidade-pais" required>
-                        <option value="" selected disabled>Selecione um País</option> 
-                        <?php
-                            if ($result_paises->num_rows > 0) {
-            
-                            while($pais = $result_paises->fetch_assoc()) {
-                                echo "<option value='" . $pais['id'] . "'>" . htmlspecialchars($pais['nome']) . "</option>";
-                            }
-                        } else {
-                            echo "<option value=''>Nenhum país cadastrado</option>";
-                        }
-                        ?>
-                    </select><br><br>
+                    <div class="autocomplete-container">
+                        <input type="text" id="cidade-pais-input" class="autocomplete-input" placeholder="Digite o nome do País" required>
+                        <input type="hidden" name="pais" id="cidade-pais-id">
+                        <div id="cidade-pais-list" class="autocomplete-items">
+                        </div>
+                    </div>
+                    <br><br>
 
                     <button type="submit" style="background-color: #961b80; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer;">Salvar</button>
 
@@ -169,7 +214,6 @@ $result_cidades = $conexao->query($sql_cidades);
         </div>
 
         <!-- MODAL ALTERAR -->
-        <!-- Modal -->
         <div class="modal-container" id="modal-editar" style="display: none;">
             <div id="modal" class="modal">
                 <form method="POST" action="update_cidades.php">
@@ -182,22 +226,13 @@ $result_cidades = $conexao->query($sql_cidades);
                     <label for="populacao">Populacao</label>
                     <input type="populacao" name="populacao" id="editar-populacao" required><br>
 
-                    <label for="pais">País</label>
-                    <select name="pais" id="editar-pais" required>
-                        <option value="" selected disabled>Selecione um País</option> 
-                        <?php
-                            if ($result_paises->num_rows > 0) {
-                                $result_paises->data_seek(0); 
-                                
-                                while($pais = $result_paises->fetch_assoc()) {
-                                    echo "<option value='" . $pais['id'] . "'>" . htmlspecialchars($pais['nome']) . "</option>";
-                                }
-                            } else {
-                                echo "<option value=''>Nenhum país cadastrado</option>";
-                            }
-                        ?>
-                    </select>  
-
+                    <div class="autocomplete-container">
+                        <input type="text" id="editar-pais-input" class="autocomplete-input" placeholder="Digite o nome do País" required>
+                        <input type="hidden" name="pais" id="editar-pais-id">
+                        <div id="editar-pais-list" class="autocomplete-items">
+                        </div>
+                    </div>
+                    <br> 
                     <br>
 
                     <button type="submit" style="background-color: #961b80; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer;">Salvar</button>
@@ -211,6 +246,21 @@ $result_cidades = $conexao->query($sql_cidades);
 
     <script>
         $(document).ready(function () {
+            const toastElement = $('#toast-feedback');
+    
+            if (toastElement.length) {
+                const mensagem = toastElement.data('message');               
+                toastElement.text(mensagem);                
+                toastElement.addClass('show');
+                
+            setTimeout(function() {
+                    toastElement.removeClass('show');                    
+                    setTimeout(function() {
+                        toastElement.remove();
+                    }, 500);                    
+                }, 5000); 
+            }
+
             $('#cidade-pais').select2({
                 placeholder: "Selecione ou digite o nome do País",
                 allowClear: true,
@@ -240,7 +290,8 @@ $result_cidades = $conexao->query($sql_cidades);
                         $('#editar-id').val(cidade.id);
                         $('#editar-nome').val(cidade.nome);
                         $('#editar-populacao').val(cidade.populacao);
-                        $('#editar-pais').val(cidade.pais).trigger('change'); 
+                        $('#editar-pais-input').val(cidade.pais_nome); 
+                        $('#editar-pais-id').val(cidade.pais_id); 
                         $('#modal-editar').show();
                     },
                     error: function(xhr, status, error) {
@@ -268,5 +319,6 @@ $result_cidades = $conexao->query($sql_cidades);
     </script>
 
     <script src="dashboard.js"></script>
+    <script src="autocomplete-paises.js"></script>
 </body>
 </html>

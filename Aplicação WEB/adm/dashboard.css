@@ -392,26 +392,33 @@ a {
 }
 
 /*TOAST*/
-#toast {
-  visibility: hidden;
-  min-width: 500px;
-  background-color: #f44336; /* vermelho */
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 16px;
-  position: fixed;
-  z-index: 9999;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+.toast-base {
+    visibility: hidden;
+    min-width: 300px;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 9999;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
-#toast.show {
-  visibility: visible;
-  opacity: 1;
+.toast-base.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.toast-base.toast-erro {
+    background-color: #f44336; 
+}
+
+.toast-base.toast-sucesso {
+    background-color: #4CAF50; 
 }

@@ -116,8 +116,8 @@ $admin = $_SESSION['admin'];
     </div>
 
     <?php 
-    $quantidade = $_SESSION['quantidade_acesso'] ?? null; 
-    if (isset($quantidade)):
+        $quantidade = $_SESSION['quantidade_acesso'] ?? null; 
+        if (isset($quantidade)):
     ?>
         <div id="toast" data-message="Bem-vindo novamente! Esta é a <?= $quantidade ?>ª vez que você entra no nosso site."></div>
     <?php endif; ?>

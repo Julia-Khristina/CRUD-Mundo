@@ -1,4 +1,6 @@
 <?php
+
+session_start(); 
 include '../conexao.php'; 
 
 if (isset($_GET['id'])) {
@@ -45,10 +47,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssi", $nome, $continente, $populacao, $idioma, $id);
 
     if ($stmt->execute()) {
+        $_SESSION['feedback_mensagem'] = "País atualizado com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: paises.php"); 
         exit();
     } else {
-        echo "Erro na execução da query: " . $stmt->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao atualizar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: paises.php"); 
+        exit();
     }
 
     $stmt->close();

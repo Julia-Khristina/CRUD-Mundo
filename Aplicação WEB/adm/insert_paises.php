@@ -1,22 +1,40 @@
 <?php
+session_start(); 
 include '../conexao.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $conexao->real_escape_string($_POST['nome']);
-    $continente = $conexao->real_escape_string($_POST['continente']);
-    $populacao = $conexao->real_escape_string($_POST['populacao']);
-    $idioma = $conexao->real_escape_string($_POST['idioma']);
+    $nome = $_POST['nome'];
+    $continente = $_POST['continente'];
+    $populacao = $_POST['populacao'];
+    $idioma = $_POST['idioma'];
 
     $sql = "INSERT INTO Paises (nome, continente, populacao, idioma) 
-            VALUES ('$nome', '$continente', '$populacao', '$idioma')";
+            VALUES (?, ?, ?, ?)";
 
-    if ($conexao->query($sql) === TRUE) {
+    $stmt = $conexao->prepare($sql);
+
+    if ($stmt === false) {
+        $_SESSION['feedback_mensagem'] = "Erro na preparação da query: " . $conexao->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: paises.php"); 
+        exit();
+    }
+
+    $stmt->bind_param("ssss", $nome, $continente, $populacao, $idioma);
+
+    if ($stmt->execute()) {
+        $_SESSION['feedback_mensagem'] = "País cadastrado com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: paises.php"); 
         exit();
     } else {
-        echo "Erro ao cadastrar país: " . $conexao->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao cadastrar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: paises.php"); 
+        exit();
     }
 
+    $stmt->close();
     $conexao->close();
 }
 ?>

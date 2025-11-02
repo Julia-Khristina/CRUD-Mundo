@@ -1,5 +1,12 @@
 <?php
+session_start();
 include '../conexao.php'; 
+
+$feedback_mensagem = $_SESSION['feedback_mensagem'] ?? null;
+$feedback_tipo = $_SESSION['feedback_tipo'] ?? null;
+
+unset($_SESSION['feedback_mensagem']);
+unset($_SESSION['feedback_tipo']);
 
 $sql = "SELECT id, nome, continente, populacao, idioma FROM Paises";
 $result = $conexao->query($sql);
@@ -20,23 +27,20 @@ $result = $conexao->query($sql);
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle" style="display: flex; align-items: center; justify-content: space-between;">
-            <!-- Ícone do menu -->
+ 
             <i class="bi bi-list" id="header-toggle" style="font-size: 1.5rem; color: #961b80;"></i>
         
-            <!-- Texto "Dashboard Aquestre" -->
             <div style="display: flex; align-items: center; margin-left: 1rem;">
-                <p style="margin: 0; font-size: 1.2rem; color: #000000;">Paises</p>
+                <p style="margin: 0; font-size: 1.2rem; color: #000000;">Países</p>
             </div>
         </div>
 
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <!-- Logo e Nome -->
             <div>
-                <!-- Lista de Navegação -->
                 <div class="nav_list">
-                    <a href="dashboard.php" class="nav_link active">
+                    <a href="dashboard.php" class="nav_link">
                         <i class="bi bi-house-door-fill"></i>
                         <span class="nav_name">Início</span>
                     </a>
@@ -44,7 +48,7 @@ $result = $conexao->query($sql);
                         <i class="bi bi-person-fill"></i>
                         <span class="nav_name">Usuários</span>
                     </a>
-                    <a href="paises.php" class="nav_link">
+                    <a href="paises.php" class="nav_link active">
                         <i class="bi bi-globe2"></i>
                         <span class="nav_name">Países</span>
                     </a>
@@ -55,7 +59,6 @@ $result = $conexao->query($sql);
                    
                 </div>
             </div>
-            <!-- Logout -->
             <a href="logout.php" class="nav_link">
                 <i class="bi bi-box-arrow-left"></i>
                 <span class="nav_name">SignOut</span>
@@ -68,8 +71,14 @@ $result = $conexao->query($sql);
     <button class='openCadastrarBtn' style='width: 15%; background:#961b80; border: none; text-align: center; text-decoration: none; font-size: 12px; border-radius: 5px; cursor: pointer;'>
         <h3 style='color:rgb(255, 255, 255);'>Cadastrar País</h3> <!-- Cor personalizada aqui -->
     </button>
-    
-    <!--Container Main start-->
+
+    <?php if ($feedback_mensagem): ?>
+        <div id="toast-feedback" 
+            class="toast-base toast-<?= htmlspecialchars($feedback_tipo) ?>" 
+            data-message="<?= htmlspecialchars($feedback_mensagem) ?>">
+        </div>
+    <?php endif; ?>
+
     <div class="style-tabela">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">                      
             <tbody>
@@ -109,7 +118,7 @@ $result = $conexao->query($sql);
             </tbody>                
         
         </table>
-        </div><!--tabela-->
+        </div>
 
         <!-- MODAL CADASTRAR -->
     <div class="modal-container" id="modal-cadastrar" style="display: none;">
@@ -140,7 +149,6 @@ $result = $conexao->query($sql);
     </div>
 
         <!-- MODAL ALTERAR -->
-        <!-- Modal -->
     <div class="modal-container" id="modal-editar" style="display: none;">
         <div id="modal" class="modal">
             <form method="POST" action="update_paises.php">
@@ -170,6 +178,21 @@ $result = $conexao->query($sql);
 
     <script>
         $(document).ready(function () {
+            const toastElement = $('#toast-feedback');
+    
+            if (toastElement.length) {
+                const mensagem = toastElement.data('message');               
+                toastElement.text(mensagem);                
+                toastElement.addClass('show');
+                
+            setTimeout(function() {
+                    toastElement.removeClass('show');                    
+                    setTimeout(function() {
+                        toastElement.remove();
+                    }, 500);                    
+                }, 5000); 
+            }
+
             // Abrir o modal de edição
             $('.openModalBtn').on('click', function () {
                 var paisId = $(this).data('id');

@@ -119,16 +119,10 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
         <img src="img/frontImg.jpg" alt="">
         <div class="text">
           <span class="text-1">Seja bem-vindo(a)!!!</span>
-          <span class="text-2">Acesse sua conta e descubra nossos serviços personalizados. </span>
+          <span class="text-2">Faça login e veja como está o clima e o que acontece em cada canto do mundo.</span>
         </div>
       </div>
-      <div class="back">
-        <img class="backImg" src="images/backImg.jpg" alt="">
-        <div class="text">
-          <span class="text-1">Complete miles of journey <br> with one step</span>
-          <span class="text-2">Let's get started</span>
-        </div>
-      </div>
+     
     </div>
     <div class="forms">
         <div class="form-content">

@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 include '../conexao.php'; 
 
 if (isset($_GET['id'])) {
@@ -68,10 +69,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     call_user_func_array([$stmt, 'bind_param'], array_merge([$bind_types], $bind_params));
 
     if ($stmt->execute()) {
+        $_SESSION['feedback_mensagem'] = "Usuário atualizado com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: usuario.php"); 
         exit();
     } else {
-        echo "Erro na execução da query: " . $stmt->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao atualizar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: usuario.php"); 
+        exit();
     }
 
     $stmt->close();

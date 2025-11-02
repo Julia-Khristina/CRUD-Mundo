@@ -1,5 +1,12 @@
 <?php
+session_start();
 include '../conexao.php'; 
+
+$feedback_mensagem = $_SESSION['feedback_mensagem'] ?? null;
+$feedback_tipo = $_SESSION['feedback_tipo'] ?? null;
+
+unset($_SESSION['feedback_mensagem']);
+unset($_SESSION['feedback_tipo']);
 
 $sql = "SELECT id, nome, email, senha, status, tipo, quantidade_acesso, tentativas_login, created_at FROM Usuarios";
 $result = $conexao->query($sql);
@@ -36,11 +43,11 @@ $result = $conexao->query($sql);
             <div>
                 <!-- Lista de Navegação -->
                 <div class="nav_list">
-                    <a href="dashboard.php" class="nav_link active">
+                    <a href="dashboard.php" class="nav_link">
                         <i class="bi bi-house-door-fill"></i>
                         <span class="nav_name">Início</span>
                     </a>
-                    <a href="usuario.php" class="nav_link">
+                    <a href="usuario.php" class="nav_link active">
                         <i class="bi bi-person-fill"></i>
                         <span class="nav_name">Usuários</span>
                     </a>
@@ -68,8 +75,14 @@ $result = $conexao->query($sql);
     <button class='openCadastrarBtn' style='width: 15%; background:#961b80; border: none; text-align: center; text-decoration: none; font-size: 12px; border-radius: 5px; cursor: pointer;'>
         <h3 style='color:rgb(255, 255, 255);'>Cadastrar usuário</h3> <!-- Cor personalizada aqui -->
     </button>
+
+    <?php if ($feedback_mensagem): ?>
+        <div id="toast-feedback" 
+            class="toast-base toast-<?= htmlspecialchars($feedback_tipo) ?>" 
+            data-message="<?= htmlspecialchars($feedback_mensagem) ?>">
+        </div>
+    <?php endif; ?>
     
-    <!--Container Main start-->
     <div class="style-tabela">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">                      
             <tbody>
@@ -199,6 +212,20 @@ $result = $conexao->query($sql);
 
     <script>
     $(document).ready(function () {
+        const toastElement = $('#toast-feedback');
+    
+        if (toastElement.length) {
+            const mensagem = toastElement.data('message');               
+            toastElement.text(mensagem);                
+            toastElement.addClass('show');
+            
+        setTimeout(function() {
+                toastElement.removeClass('show');                    
+                setTimeout(function() {
+                    toastElement.remove();
+                }, 500);                    
+            }, 5000); 
+        }
         // Abrir o modal de edição
         $('.openModalBtn').on('click', function () {
             var userId = $(this).data('id');

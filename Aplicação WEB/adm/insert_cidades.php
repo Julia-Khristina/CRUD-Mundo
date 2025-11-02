@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../conexao.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,10 +19,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sii", $nome, $populacao, $pais);
 
     if ($stmt->execute()) {
+        $_SESSION['feedback_mensagem'] = "Cadastro realizado com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: cidades.php"); 
         exit();
     } else {
-        echo "Erro ao cadastrar cidade: " . $stmt->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao cadastrar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: cidades.php"); 
+        exit();
     }
 
     $stmt->close();

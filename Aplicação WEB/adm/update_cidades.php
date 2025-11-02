@@ -1,11 +1,27 @@
 <?php
+session_start(); 
 include '../conexao.php'; 
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
+
+    $sql = "
+        SELECT 
+            C.id, 
+            C.nome, 
+            C.populacao, 
+            C.pais AS pais_id,      
+            P.nome AS pais_nome    
+        FROM 
+            Cidades C
+        INNER JOIN 
+            Paises P ON C.pais = P.id
+        WHERE 
+            C.id = ?
+    ";
     
-    $stmt = $conexao->prepare("SELECT id, nome, populacao, pais FROM Cidades WHERE id = ?");
-    $stmt->bind_param("i", $id); // parâmetro número inteiro
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $id); 
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -44,10 +60,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssi", $nome, $populacao, $pais, $id);
 
     if ($stmt->execute()) {
+        $_SESSION['feedback_mensagem'] = "Cidade atualizada com sucesso!";
+        $_SESSION['feedback_tipo'] = "sucesso";
         header("Location: cidades.php"); 
         exit();
     } else {
-        echo "Erro na execução da query: " . $stmt->error;
+        $_SESSION['feedback_mensagem'] = "Erro ao atualizar: " . $stmt->error;
+        $_SESSION['feedback_tipo'] = "erro";
+        header("Location: cidades.php"); 
+        exit();
     }
 
     $stmt->close();
