@@ -2,7 +2,7 @@ create database Mundo;
 use Mundo;
 
 create table Paises (
-id_pais int auto_increment primary key,
+id int auto_increment primary key,
 nome varchar(100) not null,
 continente enum ("América", "Europa", "África", "Ásia", "Oceania") not null,
 populacao int not null,
@@ -10,12 +10,34 @@ idioma varchar(50)
 );
 
 create table Cidades (
-id_cidade int auto_increment primary key,
+id int auto_increment primary key,
 nome varchar(100) not null,
 populacao int not null,
-id_pais int not null,
-foreign key (id_pais) references Paises(id_pais)
+pais int not null,
+foreign key (pais) references Paises(id)
 );
+
+CREATE TABLE usuarios (
+  id int(11) NOT NULL,
+  nome varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  senha varchar(255) NOT NULL,
+  status enum('Ativo','Inativo','Bloqueado') NOT NULL,
+  tipo enum('Administrador','Usuário Comum') NOT NULL,
+  primeiro_acesso char(1) NOT NULL,
+  quantidade_acesso int(11) NOT NULL,
+  tentativas_login int(11) NOT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `status`, `tipo`, `primeiro_acesso`, `quantidade_acesso`, `tentativas_login`, `created_at`) VALUES
+(1, 'Julia Khristina', 'jkhristina@gmail.com', '$2y$10$.vMWddIPzHqcwhsUuo1fRuBYT/BdkaUuh534vlUtm/BraiiF3QuUy', 'Ativo', 'Administrador', '1', 1, 0, '2025-06-27 01:04:53'),
+(2, 'Larissa', 'lari@gmail.com', '$2y$10$wSSVl7P1rcvFfcv/IWZae.Yo8W6DNiUVZMuIzNMBFJ2bTgYR2Q2Ei', 'Ativo', 'Usuário Comum', '0', 2, 0, '2025-06-27 01:05:07'),
+(3, 'Jane', 'jane@gmail.com', '$2y$10$5vclQqh/9m542/qUnMOJ7ei4Qqkcq7kQl5eN00Nqf6kBerHtZbW4O', 'Ativo', 'Administrador', '1', 1, 0, '2025-06-27 01:05:21'),
+(4, 'Luiz', 'luiz@gmail.com', '$2y$10$q9vOuHSBkLhznUtD4zFZy.rvZ/IBpIaXAuc8XToy9CFMSr3gXg8tu', 'Ativo', 'Usuário Comum', '1', 0, 0, '2025-06-27 01:05:38'),
+(5, 'Melissa', 'melissa@gmail.com', '$2y$10$67/Prtni1y2QMxFjTvR9BOQYUAYv.pmMRtu79AFrMwhn9LN7dWQyC', 'Bloqueado', 'Usuário Comum', '0', 1, 3, '2025-06-27 01:05:53'),
+(6, 'João Pedro', 'jp@gmail.com', '$2y$10$UsvG4n7L7eSBQymm/8DyFu5YydtU6VxHMfZc/IeL9ApqbtCk8nQEq', 'Inativo', 'Usuário Comum', '1', 0, 0, '2025-06-27 01:06:17'),
+(7, 'Diogo', 'diogo@gmail.com', '$2y$10$/kLmmEcsrV5sVrvJvXiF3ePFKbJrAr5RqRDhF.k3d3QyF22IONxMu', 'Ativo', 'Usuário Comum', '0', 1, 0, '2025-06-27 01:06:50');
 
 -- América
 INSERT INTO Paises (nome, continente, populacao, idioma) VALUES
@@ -73,7 +95,7 @@ INSERT INTO Paises (nome, continente, populacao, idioma) VALUES
 ('Tonga', 'Oceania', 105695, 'Tongan, Inglês');
 
 -- Brasil (id_pais = 1)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('São Paulo', 12325232, 1),
 ('Rio de Janeiro', 6747815, 1),
 ('Belo Horizonte', 2523764, 1),
@@ -84,7 +106,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Manaus', 2143555, 1);
 
 -- Argentina (id_pais = 2)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Buenos Aires', 2890151, 2),
 ('Córdoba', 1391000, 2),
 ('Rosário', 1205000, 2),
@@ -95,7 +117,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Tucumán', 1000000, 2);
 
 -- Estados Unidos (id_pais = 3)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Nova York', 8419600, 3),
 ('Los Angeles', 3980400, 3),
 ('Chicago', 2716000, 3),
@@ -106,7 +128,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('San Diego', 1424000, 3);
 
 -- França (id_pais = 4)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Paris', 2148327, 4),
 ('Marselha', 861635, 4),
 ('Lyon', 513275, 4),
@@ -117,7 +139,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Bordéus', 257068, 4);
 
 -- Nigéria (id_pais = 5)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Lagos', 14240000, 5),
 ('Abuja', 1235880, 5),
 ('Kano', 4430000, 5),
@@ -128,7 +150,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Aba', 1000000, 5);
 
 -- China (id_pais = 6)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Pequim', 21516000, 6),
 ('Xangai', 24150000, 6),
 ('Cantão', 14000000, 6),
@@ -139,7 +161,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Hong Kong', 7500000, 6);
 
 -- Austrália (id_pais = 7)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Sydney', 5312163, 7),
 ('Melbourne', 5078193, 7),
 ('Brisbane', 2410000, 7),
@@ -150,7 +172,7 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Darwin', 147000, 7);
 
 -- Nova Zelândia (id_pais = 8)
-INSERT INTO Cidades (nome, populacao, id_pais) VALUES
+INSERT INTO Cidades (nome, populacao, pais) VALUES
 ('Auckland', 1631000, 8),
 ('Wellington', 412500, 8),
 ('Christchurch', 377000, 8),
@@ -159,7 +181,3 @@ INSERT INTO Cidades (nome, populacao, id_pais) VALUES
 ('Tauranga', 135000, 8),
 ('Napier', 64000, 8),
 ('Queenstown', 15000, 8);
-
-
-
-
