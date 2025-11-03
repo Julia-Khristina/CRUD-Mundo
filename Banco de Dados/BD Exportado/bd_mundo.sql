@@ -21,23 +21,11 @@ CREATE TABLE usuarios (
   id int(11) NOT NULL,
   nome varchar(100) NOT NULL,
   email varchar(100) NOT NULL,
-  senha varchar(255) NOT NULL,
-  status enum('Ativo','Inativo','Bloqueado') NOT NULL,
-  tipo enum('Administrador','Usuário Comum') NOT NULL,
-  primeiro_acesso char(1) NOT NULL,
-  quantidade_acesso int(11) NOT NULL,
-  tentativas_login int(11) NOT NULL,
-  created_at timestamp NOT NULL DEFAULT current_timestamp()
+  senha varchar(255) NOT NULL
 );
 
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `status`, `tipo`, `primeiro_acesso`, `quantidade_acesso`, `tentativas_login`, `created_at`) VALUES
-(1, 'Julia Khristina', 'jkhristina@gmail.com', '$2y$10$.vMWddIPzHqcwhsUuo1fRuBYT/BdkaUuh534vlUtm/BraiiF3QuUy', 'Ativo', 'Administrador', '1', 1, 0, '2025-06-27 01:04:53'),
-(2, 'Larissa', 'lari@gmail.com', '$2y$10$wSSVl7P1rcvFfcv/IWZae.Yo8W6DNiUVZMuIzNMBFJ2bTgYR2Q2Ei', 'Ativo', 'Usuário Comum', '0', 2, 0, '2025-06-27 01:05:07'),
-(3, 'Jane', 'jane@gmail.com', '$2y$10$5vclQqh/9m542/qUnMOJ7ei4Qqkcq7kQl5eN00Nqf6kBerHtZbW4O', 'Ativo', 'Administrador', '1', 1, 0, '2025-06-27 01:05:21'),
-(4, 'Luiz', 'luiz@gmail.com', '$2y$10$q9vOuHSBkLhznUtD4zFZy.rvZ/IBpIaXAuc8XToy9CFMSr3gXg8tu', 'Ativo', 'Usuário Comum', '1', 0, 0, '2025-06-27 01:05:38'),
-(5, 'Melissa', 'melissa@gmail.com', '$2y$10$67/Prtni1y2QMxFjTvR9BOQYUAYv.pmMRtu79AFrMwhn9LN7dWQyC', 'Bloqueado', 'Usuário Comum', '0', 1, 3, '2025-06-27 01:05:53'),
-(6, 'João Pedro', 'jp@gmail.com', '$2y$10$UsvG4n7L7eSBQymm/8DyFu5YydtU6VxHMfZc/IeL9ApqbtCk8nQEq', 'Inativo', 'Usuário Comum', '1', 0, 0, '2025-06-27 01:06:17'),
-(7, 'Diogo', 'diogo@gmail.com', '$2y$10$/kLmmEcsrV5sVrvJvXiF3ePFKbJrAr5RqRDhF.k3d3QyF22IONxMu', 'Ativo', 'Usuário Comum', '0', 1, 0, '2025-06-27 01:06:50');
+INSERT INTO usuarios (id, nome, email, senha) VALUES
+(1, 'Julia Khristina', 'jkhristina@gmail.com', '$2y$10$.vMWddIPzHqcwhsUuo1fRuBYT/BdkaUuh534vlUtm/BraiiF3QuUy');
 
 -- América
 INSERT INTO Paises (nome, continente, populacao, idioma) VALUES

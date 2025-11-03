@@ -44,10 +44,6 @@ $result = $conexao->query($sql);
                         <i class="bi bi-house-door-fill"></i>
                         <span class="nav_name">Início</span>
                     </a>
-                    <a href="usuario.php" class="nav_link">
-                        <i class="bi bi-person-fill"></i>
-                        <span class="nav_name">Usuários</span>
-                    </a>
                     <a href="paises.php" class="nav_link active">
                         <i class="bi bi-globe2"></i>
                         <span class="nav_name">Países</span>

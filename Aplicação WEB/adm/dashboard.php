@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
-    header("Location: ./Index.php");
+    header("Location: adm.php");
     exit();
 }
 
@@ -17,32 +17,6 @@ $admin = $_SESSION['admin'];
     <title>Dashboard Aquestre</title>
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <style>       
-        #toast {
-            visibility: hidden;
-            min-width: 500px;
-            background-color: #f44336; /* vermelho */
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 16px;
-            position: fixed;
-            z-index: 9999;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        #toast.show {
-        visibility: visible;
-        opacity: 1;
-        }
-    </style>
 </head>
 <body id="body-pd">
     <header class="header" id="header">
@@ -66,10 +40,6 @@ $admin = $_SESSION['admin'];
                     <a href="dashboard.php" class="nav_link active">
                         <i class="bi bi-house-door-fill"></i>
                         <span class="nav_name">Início</span>
-                    </a>
-                    <a href="usuario.php" class="nav_link">
-                        <i class="bi bi-person-fill"></i>
-                        <span class="nav_name">Usuários</span>
                     </a>
                     <a href="paises.php" class="nav_link">
                         <i class="bi bi-globe2"></i>
@@ -114,13 +84,6 @@ $admin = $_SESSION['admin'];
             </p>
         </div>
     </div>
-
-    <?php 
-        $quantidade = $_SESSION['quantidade_acesso'] ?? null; 
-        if (isset($quantidade)):
-    ?>
-        <div id="toast" data-message="Bem-vindo novamente! Esta é a <?= $quantidade ?>ª vez que você entra no nosso site."></div>
-    <?php endif; ?>
 
     <script src="dashboard.js"></script>
 <script>
