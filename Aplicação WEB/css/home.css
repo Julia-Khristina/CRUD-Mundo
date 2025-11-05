@@ -1,0 +1,686 @@
+:root {
+
+    --spanish-gray: hsl(0, 0%, 60%);
+    --sonic-silver: hsl(0, 0%, 47%);
+    --eerie-black: hsl(0, 0%, 13%);
+    --salmon-pink: hsl(353, 100%, 78%);
+    --sandy-brown: hsl(29, 90%, 65%);
+    --bittersweet: hsl(0, 100%, 70%);
+    --ocean-green: hsl(152, 51%, 52%);
+    --davys-gray: hsl(0, 0%, 33%);
+    --cultured: hsl(0, 0%, 93%);
+    --white: hsl(0, 100%, 100%);
+    --onyx: hsl(0, 0%, 27%);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    color: #ffffff;
+}
+
+button{
+    border: none;
+    background-color: #fff;
+}
+
+header {
+    background-color: #ffffff;
+}
+
+.top-bar {
+    background-color: #b56ea3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 65px;
+    font-size: 14px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.social-icons a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    width: 5px;
+    font-size: 20px; 
+}
+
+.announcement, .store-location {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente dentro de cada item */
+    align-items: center; /* Centraliza verticalmente dentro de cada item */
+}
+
+.announcement {
+    flex: 1;
+    display: flex; /* Transforma o elemento em um container flex */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    text-align: center;
+    font-size: 17px;
+}
+
+.store-location {
+    font-size: 17px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 65px;
+
+}
+
+.logo {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bolder;
+    margin: 0;
+    text-decoration: none;
+}
+
+header .logo span {
+    color: #e84393;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin: 5px 15px;
+    width: 300px;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 80%;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 8px 15px 8px 25px;
+    outline: none;
+    height: 30px;
+    font-size: 15px;
+}
+
+.search-bar button {
+    position: absolute; /* Posiciona o ícone dentro do campo */
+      top: 50%; /* Centraliza verticalmente */
+      right: 90px; /* Ajuste a distância da borda direita */
+      transform: translateY(-50%); /* Corrige a posição vertical */
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      outline: none;
+      box-shadow: none;
+      padding: 0;
+      background: none;
+      border: none;
+}
+
+#perfil-inicial {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: #40e0d0;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 0.8px solid #000000;
+    font-size: 25px;
+}
+
+.icons{
+    display: flex;
+    position: relative; /* Necessário para o posicionamento dos elementos filhos */
+    align-items: center;
+}
+
+.icons a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #555;
+    font-weight: bold;
+    font-size: 28px; 
+    position: relative;
+}
+
+.icons a:hover{
+    color: #e84393;
+}
+
+.icons .count{
+     position: absolute;
+    top: -5px; /* Ajusta o deslocamento vertical */
+    right: -10px; /* Ajusta o deslocamento horizontal */
+    background: var(--bittersweet); /* Cor do fundo */
+    color: var(--white); /* Cor do texto */
+    font-size: 12px;
+    font-weight: var(--weight-500);
+    line-height: 1;
+    padding: 2px 6px; /* Ajusta o tamanho do contador */
+    border-radius: 50%; /* Faz o contador ser um círculo */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona um efeito de sombra */
+}
+
+.divider1 {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; /* Cor da linha */
+    margin: 5px 0; /* Espaçamento superior e inferior */
+}
+
+.menu {
+    background-color: #ffffff;
+    padding: 10px 20px;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+}
+
+.menu ul li a:hover{
+    color: #e84393;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo para o banner dividido */
+.split-banner {
+    display: flex;
+    flex-wrap: wrap; /* Torna responsivo */
+    justify-content: center;
+    height: 70vh; /* Altura do banner */
+    min-height: 400px; /* Altura mínima */
+    padding: 5px 65px;
+    border-radius: 20px;
+}
+
+/* Área de Texto */
+.banner-text {
+    flex: 0.5;
+    background-color: #b56ea3; /* Cor semelhante ao exemplo */
+    color: #fff;
+    text-align: center;
+    padding: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px 0 0 20px;
+}
+
+.banner-text h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.banner-text h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.banner-text p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.banner-text .btn {
+    display: inline-block;
+    padding: 10px 0px;
+    font-size: 1rem;
+    color: #e47aa3; /* Cor do botão */
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    margin: 50px;
+}
+
+.banner-text .btn:hover {
+    background-color: #f7e1ed; /* Efeito hover */
+}
+
+/* Área de Imagem */
+.banner-image {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    width: 50%; /* Move a imagem para a esquerda, fazendo ela ultrapassar */
+    border-radius: 0 20px 20px 0;
+}
+
+.banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a imagem se ajustar sem distorção */
+}
+
+/* Container para os itens */
+.feature-container {
+    display: flex;
+    justify-content: center; /* Distribui os itens igualmente */
+    gap: 40px; /* Espaçamento entre os itens */
+    flex-wrap: wrap; /* Faz com que os itens fiquem em linha no dispositivo maior, mas empilhem-se em telas menores */
+    margin: 10px auto;
+    padding: 5px 65px;
+}
+
+/* Estilo para cada item do container */
+.feature-item {
+    background-color: #fbe9e7; /* Cor de fundo suave para o retângulo */
+    padding: 10px;
+    border-radius: 10px; /* Bordas arredondadas */
+    width: 20%; /* Divisão em 3 partes com espaçamento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Flexbox para alinhar o ícone à esquerda e o conteúdo à direita */
+.feature-icon-title {
+    display: flex;
+    align-items: center; /* Alinha os itens verticalmente */
+    justify-content: flex-start; /* Alinha os itens à esquerda */
+    gap: 15px; /* Espaço entre o ícone e o conteúdo */
+}
+
+/* Estilo para o ícone */
+.feature-icon-title i {
+    font-size: 40px; /* Tamanho do ícone ajustado */
+    color: #e84393; /* Cor do ícone */
+}
+
+/* Estilo para o conteúdo de texto (título e descrição) */
+.text-content {
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.text-content h3 {
+    font-size: 0.8rem; /* Tamanho do título ajustado */
+    font-weight: 600;
+    color: #333;
+    white-space: normal; /* Permite que o título quebre em várias linhas se necessário */
+    line-height: 1.4;
+}
+
+.text-content p {
+    font-size: 0.8rem; /* Tamanho do texto ajustado */
+    color: #555;
+    margin-top: 10px;
+    white-space: normal; /* Permite que o texto quebre em várias linhas */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .feature-item {
+        width: 100%; /* Em telas pequenas, cada item ocupa toda a largura */
+        margin-bottom: 20px; /* Espaço entre os itens quando empilhados */
+    }
+}
+
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .split-banner {
+        flex-direction: column; /* Empilha as seções em dispositivos menores */
+    }
+
+    .banner-text, .banner-image {
+        flex: none;
+        width: 100%; /* Cada seção ocupa 100% da largura */
+    }
+
+    .banner-text {
+        padding: 20px;
+    }
+
+    .banner-image {
+        width: 100%;
+        left: 0;
+    }
+}
+
+/* Ajuste básico do menu */
+.menu {
+    background-color: #ffffff;
+    padding: 10px 20px;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+}
+
+.menu ul li {
+    position: relative; /* Necessário para posicionar o dropdown corretamente */
+}
+
+.menu ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.menu ul li a:hover {
+    color: #e84393;
+}
+
+/* Estilo dos links no dropdown */
+.dropdown-menu li {
+    padding: 5px 15px;
+}
+
+.dropdown-menu li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: normal;
+    display: block;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #e84393;
+    color: #fff;
+    border-radius: 5px;
+}
+
+
+
+/* Linha divisória e título */
+.divider-container {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.divider {
+    height: 1px;
+    background-color: #ccc;
+    width: 88%;
+    margin: 0 auto 20px;
+}
+
+.section-title {
+    font-family: "Poppins", cursive;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.section-description {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Container de produtos */
+.product-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem para uma nova linha se necessário */
+    gap: 45px; /* Espaçamento entre os itens */   
+    margin: 20px auto;
+    justify-content: center;
+}
+
+/* Estilo dos cards */
+.product-card {
+    flex: 1 1 calc(30% - 20px); /* Cada card ocupa 25% do container, menos o espaço do gap */
+    max-width: calc(20% - 20px); /* Garante que nenhum card ultrapasse 25% */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 4px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Elevação suave ao passar o mouse */
+}
+
+/* Estilo da imagem e rótulo */
+.product-image {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.product-label:hover{
+    background-color: #e84393;
+}
+
+/* Nome e preço do produto */
+.product-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.product-price {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: left;
+    margin-left: 10px;
+}
+
+
+/* Estilização da linha */
+.row {
+    display: flex; /* Coloca os itens lado a lado */
+    justify-content: center; /* Centraliza os contêineres horizontalmente */
+    gap: 20px; /* Espaçamento entre os contêineres */
+    margin: 20px auto; /* Espaçamento externo e centralização */
+    width: 90%; /* Largura do contêiner principal */
+    margin-top: 3%;
+}
+
+/* Estilização dos contêineres */
+.container-box {
+    flex: 1 1 calc(33.33% - 20px); /* Cada contêiner ocupa 33.33% do espaço disponível */
+    max-width: calc(33.33% - 20px); /* Garante que não ultrapassem essa largura */
+    overflow: hidden; /* Garante que imagens não escapem do contêiner */
+    border-radius: 5px; /* Bordas arredondadas */
+    position: relative; /* Define o contexto para a sobreposição */
+    height: 250px; /* Altura fixa dos contêineres */
+}
+
+/* Wrapper para a imagem */
+.image-wrapper {
+    width: 100%;
+    height: 100%; /* Faz a imagem ocupar todo o contêiner */
+    position: relative;
+}
+
+/* Imagem no contêiner */
+.image-wrapper img {
+    width: 100%; /* Imagem preenche a largura do contêiner */
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem proporcionalmente */
+    border-radius: 10px; /* Mesma borda do contêiner */
+}
+
+/* Sobreposição do texto */
+.text-overlay {
+    position: absolute; /* Permite posicionar o texto sobre a imagem */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa toda a largura do contêiner */
+    height: 100%; /* Ocupa toda a altura do contêiner */
+    display: flex; /* Centraliza o texto dentro do contêiner */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    color: #fff; /* Cor do texto */
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px; /* Mesma borda do contêiner */
+}
+
+/* Hover para exibir o texto */
+.container-box:hover .text-overlay {
+    opacity: 1; /* Torna o texto visível no hover */
+}
+
+/* Botão de coração */
+.favorite-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 2;
+}
+
+.heart-icon {
+    width: 32px;
+    height: 32px;
+    fill: #ccc; /* Cor padrão */
+    transition: fill 0.3s ease;
+}
+
+.heart-icon:hover{
+    fill:#ec99b9;
+}
+
+.favorite-button.active .heart-icon {
+    fill: #e84393; /* Cor ao ativar */
+}
+
+/* Preço parcelado */
+.product-installment {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: left;
+    margin-left: 10px;
+}
+
+/*TOAST*/
+
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #f44336; /* vermelho */
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 9999;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*MODAL*/
+
+.modal-container {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
+}
+
+.modal {
+    display: block;
+    align-items: center;
+    padding: 30px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.modal label {
+    font-size: 14px;
+    width: 100%;
+    color:#000;
+}
+
+.modal h2{
+    color: #000;
+    text-align: center;
+}
+
+.modal input,
+.modal select {
+    width: 100%;            
+    padding: 10px 15px;     
+    height: auto;           
+    margin-bottom: 20px; 
+    border-radius: 5px;      
+    background-color: #f3ededcb; 
+    border: 1px solid #ccc;  
+    box-sizing: border-box;  
+}
+
+.modal button {
+    display: block;
+    margin: 10px auto;
+    outline: none;
+    border-radius: 20px; 
+    padding: 10px 5px; 
+    border: 1px solid  rgb(57, 57, 226); 
+    width: 50%;
+    border: none;
+    background-color: rgb(57, 57, 226);
+    color: white;
+    align-items: center;
+}

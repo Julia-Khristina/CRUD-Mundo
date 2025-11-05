@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexao.php';
+include '../conexao.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $_SESSION['mensagem_erro'] = $mensagem_para_sessao;
     }
-    header("Location: Index.php");
+    header("Location: adm.php");
     exit();
 
 }

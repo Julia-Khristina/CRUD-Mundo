@@ -1,36 +1,48 @@
-<?php
+<?php 
 session_start(); 
 include '../conexao.php';
 
 $error_message = '';
 $email_value = '';
 
-if(isset($_POST['email']) && isset($_POST['senha'])) {
+if (isset($_POST['email']) && isset($_POST['senha'])) {
 
-    if(strlen($_POST['email']) == 0) {
-        $error_message = "Preencha seu e-mail";
-    } else if(strlen($_POST['senha']) == 0) {
-        $error_message = "Preencha sua senha";
+    if (strlen($_POST['email']) == 0) {
+        $error_message = "Preencha seu e-mail.";
+    } else if (strlen($_POST['senha']) == 0) {
+        $error_message = "Preencha sua senha.";
     } else {
 
         $email = $conexao->real_escape_string($_POST['email']);
         $senha = $conexao->real_escape_string($_POST['senha']);
 
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Verifica formato do e-mail
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error_message = "E-mail inválido!";
         } else {
+            // Busca usuário no banco
             $sql_code = "SELECT * FROM Usuarios WHERE email = '$email'";
             $sql_query = $conexao->query($sql_code) or die("Erro SQL: " . $conexao->error);
 
-            if (password_verify($senha, $usuario['senha'])) {
-              $_SESSION['id'] = $usuario['id'];
-              $_SESSION['nome'] = $usuario['nome'];
-              header("Location: dashboard.php");
-              exit();
+            if ($sql_query->num_rows == 1) {
+                $usuario = $sql_query->fetch_assoc();
+
+                // Verifica senha
+                if (password_verify($senha, $usuario['senha'])) {
+                    $_SESSION['admin'] = [
+                        'id' => $usuario['id'],
+                        'nome' => $usuario['nome'],
+                        'email' => $usuario['email']
+                    ];
+
+                    header("Location: dashboard.php");
+                    exit();
+                } else {
+                    $error_message = "Senha incorreta.";
+                }
             } else {
-                $error_message = "Senha incorreta.";
+                $error_message = "E-mail não encontrado.";
             }
-          
         }
     }
 }
@@ -53,7 +65,7 @@ if(isset($_POST['email']) && isset($_POST['senha'])) {
         <img src="img/frontImg.jpg" alt="">
         <div class="text">
           <span class="text-1">Seja bem-vindo(a)!!!</span>
-          <span class="text-2">Faça login e veja como está o clima e o que acontece em cada canto do mundo.</span>
+          <span class="text-2">Acesse sua conta para gerenciar os países e cidades cadastrados no sistema.</span>
         </div>
       </div>
      

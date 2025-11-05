@@ -123,16 +123,16 @@ $result = $conexao->query($sql);
                 <h2>Cadastre um novo país!</h2>
                 <input type="hidden" name="id" id="pais-id">
 
-                <label for="nome">Nome</label>
+                <label for="nome">Nome:</label>
                 <input type="text" name="nome" id="pais-nome" required><br>
 
-                <label for="continente">Continente</label>
+                <label for="continente">Continente:</label>
                 <input type="continente" name="continente" id="pais-continente" required><br>
 
-                <label for="populacao">Populacao</label>
+                <label for="populacao">População:</label>
                 <input type="populacao" name="populacao" id="pais-populacao" required><br>
 
-                <label for="idioma">Idioma</label>
+                <label for="idioma">Idioma:</label>
                 <input type="idioma" name="idioma" id="pais-idioma" required><br>
 
                 <button type="submit" style="background-color: #961b80; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer;">Salvar</button>
@@ -151,16 +151,16 @@ $result = $conexao->query($sql);
                 <h2>Altere os dados necessários!</h2>
                 <input type="hidden" name="id" id="editar-id">
 
-                <label for="nome">Nome</label>
+                <label for="nome">Nome:</label>
                 <input type="text" name="nome" id="editar-nome" required><br>
 
-                <label for="continente">Continente</label>
+                <label for="continente">Continente:</label>
                 <input type="continente" name="continente" id="editar-continente" required><br>
 
-                <label for="populacao">Populacao</label>
+                <label for="populacao">População:</label>
                 <input type="populacao" name="populacao" id="editar-populacao" required><br>
 
-                <label for="idioma">Idioma</label>
+                <label for="idioma">Idioma:</label>
                 <input type="idioma" name="idioma" id="editar-idioma" required><br>
 
                 <button type="submit" style="background-color: #961b80; color: white; border: none; padding: 10px 20px; font-size: 1rem; border-radius: 5px; cursor: pointer;">Salvar</button>
@@ -226,6 +226,45 @@ $result = $conexao->query($sql);
             // Fechar ambos os modais
             $('.closeModalBtn').on('click', function () {
                 $(this).closest('.modal-container').hide();
+            });
+
+            // Impede números no campo de nome
+            document.querySelector('input[name="nome"]', 'input[name="continente"]', 'input[name="idioma"]').addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            });
+
+            // Impede números no campo de continente
+            document.querySelector('input[name="continente"]').addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            });
+
+            // Impede números no campo de idioma
+            document.querySelector('input[name="idioma"]').addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            });
+
+            document.querySelector('input[name="populacao"]').addEventListener('input', function() {
+                // Remove tudo que não for número
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Impede começar com zero, se tiver + de 1 numero
+                if (this.value.length > 1 && this.value.startsWith('0')) {
+                    this.value = this.value.replace(/^0+/, ''); 
+                }
+            });
+
+            ['editar-nome', 'editar-continente', 'editar-idioma'].forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
+            });
+
+            document.getElementById('editar-populacao').addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+
+                if (this.value.length > 1 && this.value.startsWith('0')) {
+                    this.value = this.value.replace(/^0+/, '');
+                }
             });
 
         });

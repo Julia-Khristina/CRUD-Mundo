@@ -185,13 +185,13 @@ $result_cidades = $conexao->query($sql_cidades);
                     <h2>Cadastre uma nova cidade!</h2>
                     <input type="hidden" name="id" id="pais-id">
 
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome:</label>
                     <input type="text" name="nome" id="cidade-nome" required><br>
 
-                    <label for="populacao">Populacao</label>
+                    <label for="populacao">População:</label>
                     <input type="populacao" name="populacao" id="cidade-populacao" required><br>
 
-                    <label for="pais">País</label><br>
+                    <label for="pais">País:</label><br>
                     <div class="autocomplete-container">
                         <input type="text" id="cidade-pais-input" class="autocomplete-input" placeholder="Digite o nome do País" required>
                         <input type="hidden" name="pais" id="cidade-pais-id">
@@ -216,12 +216,13 @@ $result_cidades = $conexao->query($sql_cidades);
                     <h2>Altere os dados necessários!</h2>
                     <input type="hidden" name="id" id="editar-id">
 
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome:</label>
                     <input type="text" name="nome" id="editar-nome" required><br>
 
-                    <label for="populacao">Populacao</label>
+                    <label for="populacao">População:</label>
                     <input type="populacao" name="populacao" id="editar-populacao" required><br>
 
+                    <label for="pais">País:</label><br>
                     <div class="autocomplete-container">
                         <input type="text" id="editar-pais-input" class="autocomplete-input" placeholder="Digite o nome do País" required>
                         <input type="hidden" name="pais" id="editar-pais-id">
@@ -309,6 +310,21 @@ $result_cidades = $conexao->query($sql_cidades);
             // Fechar ambos os modais
             $('.closeModalBtn').on('click', function () {
                 $(this).closest('.modal-container').hide();
+            });
+
+            // Impede números no campo de nome
+            document.querySelector('input[name="nome"]','input[editar-nome]').addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            });
+
+            document.querySelector('input[name="populacao"]','input[editar-populacao]').addEventListener('input', function() {
+                // Remove tudo que não for número
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Impede começar com zero, se tiver + de 1 numero
+                if (this.value.length > 1 && this.value.startsWith('0')) {
+                    this.value = this.value.replace(/^0+/, ''); 
+                }
             });
 
         });
