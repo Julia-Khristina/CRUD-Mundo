@@ -1,0 +1,110 @@
+body { 
+    padding: 20px; 
+    font-family: sans-serif; 
+    background-color: #ffffff; 
+}
+.card { 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    padding: 20px; 
+    max-width: 80%; 
+    margin: 20px auto; 
+    display: flex;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1 ); 
+    background-color: #fff; 
+}
+
+.card-header {
+    width: 40%;
+    align-items: center; 
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 15px; 
+    margin-bottom: 15px; 
+    flex-wrap: wrap; 
+    margin-top: 0;
+}
+
+.card-cidade{
+    width: 50%;
+}
+
+.flag-img {
+    width: 100%; 
+    margin-top: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); 
+    border-radius: 4px; 
+}
+
+h1 { 
+    color: #961b80; 
+    margin: 0; 
+    margin-bottom: 20px;
+}
+
+p { 
+    line-height: 1.6; 
+    margin-bottom: 10px;
+}
+
+ul { 
+    list-style-type: none; 
+    padding: 0; 
+}
+
+.city-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: #f9f9f9; 
+    border: 1px solid #eee; 
+    padding: 10px 15px; 
+    margin-bottom: 8px; 
+    border-radius: 4px; 
+    flex-wrap: wrap; 
+}
+
+.weather-btn { 
+    background-color: #5c67f2; 
+    color: white; 
+    border: none; 
+    padding: 8px 12px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 0.9em; 
+    white-space: nowrap; 
+}
+
+.weather-btn:hover { 
+    background-color: #4a54c2; 
+}
+
+.weather-info { 
+    margin-top: 10px; 
+    padding: 10px; 
+    background-color: #eef; 
+    border-radius: 4px; 
+    font-size: 0.9em; 
+    width: 100%; 
+    text-align: center; 
+}
+
+.loader { 
+    border: 4px solid #f3f3f3; 
+    border-top: 4px solid #961b80; 
+    border-radius: 50%; 
+    width: 20px; 
+    height: 20px; 
+    animation: spin 1s linear infinite; 
+    display: none; 
+    margin-left: 10px; 
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+a.back-link {
+    color: #961b80; 
+    text-decoration: none; 
+    display: inline-block; 
+    margin-top: 20px; 
+}
