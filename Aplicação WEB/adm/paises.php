@@ -2,6 +2,11 @@
 session_start();
 include '../conexao.php'; 
 
+if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+    header("Location: adm.php");
+    exit();
+}
+
 $feedback_mensagem = $_SESSION['feedback_mensagem'] ?? null;
 $feedback_tipo = $_SESSION['feedback_tipo'] ?? null;
 

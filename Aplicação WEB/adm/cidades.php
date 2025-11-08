@@ -2,6 +2,11 @@
 session_start();
 include '../conexao.php'; 
 
+if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+    header("Location: adm.php");
+    exit();
+}
+
 $feedback_mensagem = $_SESSION['feedback_mensagem'] ?? null;
 $feedback_tipo = $_SESSION['feedback_tipo'] ?? null;
 
@@ -43,7 +48,45 @@ $result_cidades = $conexao->query($sql_cidades);
 
     <!-- Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <style>
+        .autocomplete-container {
+            position: relative;
+            display: inline-block;
+            width: 100%; 
+        }
+        .autocomplete-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover,
+        .autocomplete-active {
+            background-color: #e9e9e9;
+        }
+        .autocomplete-items strong {
+            color: #961b80; 
+        }
+    </style>
 </head>
 <body id="body-pd">
     <header class="header" id="header">
