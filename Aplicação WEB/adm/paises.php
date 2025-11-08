@@ -127,7 +127,14 @@ $result = $conexao->query($sql);
                 <input type="text" name="nome" id="pais-nome" required><br>
 
                 <label for="continente">Continente:</label>
-                <input type="continente" name="continente" id="pais-continente" required><br>
+                <select name="continente" id="pais-continente" required>
+                    <option value="">Selecione o continente...</option>
+                    <option value="América">América</option>
+                    <option value="Europa">Europa</option>
+                    <option value="África">África</option>
+                    <option value="Ásia">Ásia</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
 
                 <label for="populacao">População:</label>
                 <input type="populacao" name="populacao" id="pais-populacao" required><br>
@@ -155,7 +162,14 @@ $result = $conexao->query($sql);
                 <input type="text" name="nome" id="editar-nome" required><br>
 
                 <label for="continente">Continente:</label>
-                <input type="continente" name="continente" id="editar-continente" required><br>
+                <select name="continente" id="editar-continente" required>
+                    <option value="">Selecione o continente...</option>
+                    <option value="América">América</option>
+                    <option value="Europa">Europa</option>
+                    <option value="África">África</option>
+                    <option value="Ásia">Ásia</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
 
                 <label for="populacao">População:</label>
                 <input type="populacao" name="populacao" id="editar-populacao" required><br>
@@ -229,42 +243,48 @@ $result = $conexao->query($sql);
             });
 
             // Impede números no campo de nome
-            document.querySelector('input[name="nome"]', 'input[name="continente"]', 'input[name="idioma"]').addEventListener('input', function() {
-                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
-            });
-
-            // Impede números no campo de continente
-            document.querySelector('input[name="continente"]').addEventListener('input', function() {
-                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
-            });
-
-            // Impede números no campo de idioma
-            document.querySelector('input[name="idioma"]').addEventListener('input', function() {
-                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
-            });
-
-            document.querySelector('input[name="populacao"]').addEventListener('input', function() {
-                // Remove tudo que não for número
-                this.value = this.value.replace(/[^0-9]/g, '');
-                
-                // Impede começar com zero, se tiver + de 1 numero
-                if (this.value.length > 1 && this.value.startsWith('0')) {
-                    this.value = this.value.replace(/^0+/, ''); 
-                }
-            });
-
-            ['editar-nome', 'editar-continente', 'editar-idioma'].forEach(id => {
-                document.getElementById(id).addEventListener('input', function() {
+            document.querySelectorAll('input[name="nome"], #editar-nome').forEach(input => {
+                input.addEventListener('input', function() {
                     this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
                 });
             });
 
-            document.getElementById('editar-populacao').addEventListener('input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
+            document.querySelectorAll('input[name="populacao"], #editar-populacao').forEach(input => {
+                input.addEventListener('input', function() {
+                    // Remove tudo que não for número
+                    this.value = this.value.replace(/[^0-9]/g, '');
 
-                if (this.value.length > 1 && this.value.startsWith('0')) {
+                    // Impede começar com zero se tiver mais de 1 número
+                    if (this.value.length > 1 && this.value.startsWith('0')) {
                     this.value = this.value.replace(/^0+/, '');
-                }
+                    }
+                });
+            });
+
+            document.querySelectorAll('#editar-pais-input, #cidade-pais-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
+
+                input.addEventListener('paste', function(e) {
+                    const texto = (e.clipboardData || window.clipboardData).getData('text');
+                    if (/[^A-Za-zÀ-ÿ\s]/.test(texto)) {
+                    e.preventDefault();
+                    }
+                });
+            });
+
+            document.querySelectorAll('input[name="continente"], #editar-continente').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
+            });
+
+            // Impede números no campo de idioma
+            document.querySelectorAll('input[name="idioma"], #editar-idioma').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
             });
 
         });

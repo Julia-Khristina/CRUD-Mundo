@@ -16,49 +16,35 @@ include 'conexao.php';
   <div class="container">
     <input type="checkbox" id="flip">
     <div class="cover">
-      <div class="front">
-        <img src="./adm/img/frontImg.jpg" alt="">
-        <div class="text">
-          <span class="text-1">Seja bem-vindo(a)!!!</span>
-          <span class="text-2">Acesse sua conta para gerenciar os países e cidades cadastrados no sistema.</span>
+    <div class="front">
+      <img src="mundo.png" alt="">
+    </div>
+  </div>
+
+  <div class="forms">
+      <div class="form-content">
+        <div class="login-form">
+          <div class="title">Encontre maiores informações sobre o país desejado</div>        
+          <form method="GET" action="detalhes_pais.php">
+            <div class="input-boxes">
+              <div class="autocomplete-container">
+                <div class="input-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="main-search-input" placeholder="Digite o nome do país..." required autocomplete="off">
+                </div>
+                <!-- armazena o ID do país selecionado -->
+                <input type="hidden" name="id" id="main-search-id">
+                
+                <!-- lista de sugestões visível -->
+                <div id="main-search-list" class="autocomplete-items"></div>
+              </div>
+              <div class="button input-box">
+                  <input type="submit" value="Buscar País">
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
-    <div class="forms">
-        <div class="form-content">
-          <div class="login-form">
-            <div class="title">Encontre maiores informações sobre o país desejado</div>
-            
-            <!-- O formulário agora aponta para a nova página de detalhes -->
-            <form method="GET" action="detalhes_pais.php">
-              <div class="input-boxes">
-                  
-
-                <!-- Container para o autocomplete -->
-                <div class="autocomplete-container">
-                  <div class="input-box">
-                    <i class="fas fa-search"></i>
-                    <!-- Input de texto visível para o usuário -->
-                    <input type="text" id="main-search-input" placeholder="Digite o nome do país..." required autocomplete="off">
-                  </div>
-                  <!-- Input escondido para armazenar o ID do país selecionado -->
-                  <input type="hidden" name="id" id="main-search-id">
-                  
-                  <!-- Container onde a lista de sugestões aparecerá -->
-                  <div id="main-search-list" class="autocomplete-items"></div>
-                </div>
-                  
-
-                <div class="button input-box">
-                    <!-- O botão agora é do tipo submit para enviar o formulário -->
-                    <input type="submit" value="Buscar País">
-                </div>
-              </div>
-            </form>
-
-          </div>
-        </div>
-    </div>
   </div>
 
   <script src="adm/autocomplete-paises.js"></script>

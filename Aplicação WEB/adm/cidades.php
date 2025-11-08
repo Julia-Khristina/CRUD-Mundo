@@ -44,46 +44,6 @@ $result_cidades = $conexao->query($sql_cidades);
     <!-- Select2-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <style>
-        .autocomplete-container {
-            position: relative;
-            display: inline-block;
-            width: 100%; /* Ajuste conforme necessário */
-        }
-        .autocomplete-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            top: 100%;
-            left: 0;
-            right: 0;
-            max-height: 200px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #d4d4d4;
-        }
-        .autocomplete-items div:hover,
-        .autocomplete-active {
-            background-color: #e9e9e9;
-        }
-        .autocomplete-items strong {
-            color: #961b80; 
-        }
-    </style>
-
 </head>
 <body id="body-pd">
     <header class="header" id="header">
@@ -312,18 +272,35 @@ $result_cidades = $conexao->query($sql_cidades);
             });
 
             // Impede números no campo de nome
-            document.querySelector('input[name="nome"]','input[editar-nome]').addEventListener('input', function() {
-                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            document.querySelectorAll('input[name="nome"], #editar-nome').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
             });
 
-            document.querySelector('input[name="populacao"]','input[editar-populacao]').addEventListener('input', function() {
-                // Remove tudo que não for número
-                this.value = this.value.replace(/[^0-9]/g, '');
-                
-                // Impede começar com zero, se tiver + de 1 numero
-                if (this.value.length > 1 && this.value.startsWith('0')) {
-                    this.value = this.value.replace(/^0+/, ''); 
-                }
+            document.querySelectorAll('input[name="populacao"], #editar-populacao').forEach(input => {
+                input.addEventListener('input', function() {
+                    // Remove tudo que não for número
+                    this.value = this.value.replace(/[^0-9]/g, '');
+
+                    // Impede começar com zero se tiver mais de 1 número
+                    if (this.value.length > 1 && this.value.startsWith('0')) {
+                    this.value = this.value.replace(/^0+/, '');
+                    }
+                });
+            });
+
+            document.querySelectorAll('#editar-pais-input, #cidade-pais-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+                });
+
+                input.addEventListener('paste', function(e) {
+                    const texto = (e.clipboardData || window.clipboardData).getData('text');
+                    if (/[^A-Za-zÀ-ÿ\s]/.test(texto)) {
+                    e.preventDefault();
+                    }
+                });
             });
 
         });

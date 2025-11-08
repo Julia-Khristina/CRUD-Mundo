@@ -59,53 +59,77 @@ $conexao->close();
 </head>
 <body>
     
-    <a href="index.php" class="back-link">Voltar para a busca</a>
-    <div class="card">
-        <div class="card-header">
-            <?php if ($pais_api_data && isset($pais_api_data['flags']['png'])): ?>
-                <img src="<?= htmlspecialchars($pais_api_data['flags']['png']) ?>" alt="Bandeira de <?= htmlspecialchars($nome_pais_pt) ?>" class="flag-img">
-            <?php endif; ?>
-            <div>
+    <!-- botao de voltar -->
+    <div class="header-back">
+        <a href="index.php">
+            <i class="bi bi-caret-left-fill"></i>
+            Voltar para a busca
+        </a>
+    </div>
+    <div class="container">
+        <div class="card">
+            
+            <!-- bandeira e informações gerais -->
+            <div class="card-header">
+                <?php if ($pais_api_data && isset($pais_api_data['flags']['png'])): ?>
+                    <img src="<?= htmlspecialchars($pais_api_data['flags']['png']) ?>" alt="Bandeira de <?= htmlspecialchars($nome_pais_pt) ?>" class="flag-img">
+                <?php endif; ?>
+                
                 <h1><?= htmlspecialchars($nome_pais_pt) ?></h1>
+                
                 <?php if ($pais_api_data): ?>
-                    <p style="margin: 5px 0 0 0;">
-                        <strong>Capital:</strong> <?= htmlspecialchars($pais_api_data['capital'][0] ?? 'N/A') ?>   
-                        <br>
-                        <strong>Moeda:</strong> <?= htmlspecialchars(current($pais_api_data['currencies'])['name'] ?? 'N/A') ?> 
-                        (<?= htmlspecialchars(current($pais_api_data['currencies'])['symbol'] ?? '') ?>)
-                    </p>
+                    <div class="info-section">
+                        <p>
+                            <strong>Capital:</strong> <?= htmlspecialchars($pais_api_data['capital'][0] ?? 'N/A') ?>
+                        </p>
+                        <p>
+                            <strong>Moeda:</strong> <?= htmlspecialchars(current($pais_api_data['currencies'])['name'] ?? 'N/A') ?> 
+                            (<?= htmlspecialchars(current($pais_api_data['currencies'])['symbol'] ?? '') ?>)
+                        </p>
+                    </div>
                 <?php else: ?>
-                    <p style="margin: 5px 0 0 0; color: #888;">Não foi possível carregar dados adicionais do país.</p>
+                    <div class="info-section">
+                        <p style="color: #888;">Não foi possível carregar dados adicionais do país.</p>
+                    </div>
                 <?php endif; ?>
             </div>
-        </div>
 
-        <hr>
-        <div class="card-cidade">          
-            <h2>Cidades Cadastradas</h2>
-            <?php if ($result_cidades->num_rows > 0): ?>
-                <ul>
-                    <?php while ($cidade = $result_cidades->fetch_assoc()): 
-                        $nome_cidade_slug = htmlspecialchars(str_replace(' ', '-', $cidade['nome']));
-                        $nome_cidade = htmlspecialchars($cidade['nome']);
-                    ?>
-                        <li class="city-item" id="city-<?= $nome_cidade_slug ?>">
-                            <div style="margin-right: 10px;">
-                                <strong><?= $nome_cidade ?></strong> - 
-                                População: <?= number_format($cidade['populacao'], 0, ',', '.') ?>
-                            </div>
-                            <div style="display: flex; align-items: center;">
-                                <button class="weather-btn" onclick="getWeather('<?= $nome_cidade ?>', '<?= $nome_pais_pt ?>', '<?= $nome_cidade_slug ?>')">
-                                    <i class="bi bi-thermometer-sun"></i> Ver Clima
-                                </button>
-                                <div class="loader" id="loader-<?= $nome_cidade_slug ?>"></div>
-                            </div>
-                        </li>
-                    <?php endwhile; ?>
-                </ul>
-            <?php else: ?>
-                <p>Nenhuma cidade cadastrada para este país.</p>
-            <?php endif; ?>
+            <!-- card cidades -->
+            <div class="card-cidade">          
+                <h2>Cidades Cadastradas</h2>
+                
+                <?php if ($result_cidades->num_rows > 0): ?>
+                    <ul>
+                        <?php while ($cidade = $result_cidades->fetch_assoc()): 
+                            $nome_cidade_slug = htmlspecialchars(str_replace(' ', '-', $cidade['nome']));
+                            $nome_cidade = htmlspecialchars($cidade['nome']);
+                        ?>
+                            <li class="cidade-item" id="city-<?= $nome_cidade_slug ?>">
+                                <!-- icone, nome e população -->
+                                <div class="cidade-info">
+                                    <div class="cidade-icon">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                    </div>
+                                    <div class="cidade-info-text">
+                                        <span class="cidade-nome"><?= $nome_cidade ?></span>
+                                        <span class="cidade-populacao">População: <?= number_format($cidade['populacao'], 0, ',', '.') ?></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- ver clima -->
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <button class="clima-btn" onclick="getWeather('<?= $nome_cidade ?>', '<?= $nome_pais_pt ?>', '<?= $nome_cidade_slug ?>')">
+                                        <i class="bi bi-cloud-sun"></i> Ver Clima
+                                    </button>
+                                    <div class="carregamento" id="carregamento-<?= $nome_cidade_slug ?>"></div>
+                                </div>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Nenhuma cidade cadastrada para este país.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 
@@ -113,18 +137,18 @@ $conexao->close();
         async function getWeather(cidade, pais, cidadeSlug) {
             const apiKey = '<?= $openweathermap_api_key ?>';
             const cityItem = document.getElementById(`city-${cidadeSlug}`);
-            const loader = document.getElementById(`loader-${cidadeSlug}`);
-            const existingWeatherInfo = cityItem.querySelector('.weather-info');
+            const carregamento = document.getElementById(`carregamento-${cidadeSlug}`);
+            const existingWeatherInfo = cityItem.querySelector('.clima-info');
 
             if (existingWeatherInfo) {
                 existingWeatherInfo.remove();
                 return;
             }
 
-            loader.style.display = 'inline-block';
+            carregamento.style.display = 'inline-block';
 
             try {
-                const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cidade )},${encodeURIComponent(pais)}&appid=${apiKey}&units=metric&lang=pt_br`;
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cidade)},${encodeURIComponent(pais)}&appid=${apiKey}&units=metric&lang=pt_br`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -134,7 +158,7 @@ $conexao->close();
                 }
 
                 const weatherHTML = `
-                    <div class="weather-info">
+                    <div class="clima-info">
                         <strong>Clima em ${data.name}:</strong> ${data.weather[0].description}, ${Math.round(data.main.temp)}°C. 
                         Sensação térmica: ${Math.round(data.main.feels_like)}°C.
                     </div>
@@ -144,10 +168,10 @@ $conexao->close();
 
             } catch (error) {
                 console.error("Erro ao buscar clima:", error);
-                const errorHTML = `<div class="weather-info" style="background-color: #fdd; color: #a00;">Erro: ${error.message}.</div>`;
+                const errorHTML = `<div class="clima-info" style="background-color: #fdd; color: #a00; border-left-color: #a00;">Erro: ${error.message}.</div>`;
                 cityItem.insertAdjacentHTML('beforeend', errorHTML);
             } finally {
-                loader.style.display = 'none';
+                carregamento.style.display = 'none';
             }
         }
     </script>

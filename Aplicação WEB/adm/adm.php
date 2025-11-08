@@ -21,7 +21,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             $error_message = "E-mail inválido!";
         } else {
             // Busca usuário no banco
-            $sql_code = "SELECT * FROM Usuarios WHERE email = '$email'";
+            $sql_code = "SELECT * FROM Usuario WHERE email = '$email'";
             $sql_query = $conexao->query($sql_code) or die("Erro SQL: " . $conexao->error);
 
             if ($sql_query->num_rows == 1) {

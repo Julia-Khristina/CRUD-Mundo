@@ -1,110 +1,333 @@
-body { 
-    padding: 20px; 
-    font-family: sans-serif; 
-    background-color: #ffffff; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.card { 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    padding: 20px; 
-    max-width: 80%; 
-    margin: 20px auto; 
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.header-back {
+    background-color: #4a1a5c;
+    padding: 15px 20px;
     display: flex;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1 ); 
-    background-color: #fff; 
+    align-items: center;
+    gap: 10px;
+}
+
+.header-back a {
+    color: #ffc107;
+    text-decoration: none;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.header-back a:hover {
+    color: #fff;
+    transform: translateX(-5px);
+}
+
+.header-back i {
+    font-size: 1.3em;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .card-header {
-    width: 40%;
-    align-items: center; 
-    border-bottom: 1px solid #eee; 
-    padding-bottom: 15px; 
-    margin-bottom: 15px; 
-    flex-wrap: wrap; 
-    margin-top: 0;
-}
-
-.card-cidade{
-    width: 50%;
+    width: 45%;
+    padding: 30px;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .flag-img {
-    width: 100%; 
-    margin-top: 10px;
-    margin-bottom: 40px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2); 
-    border-radius: 4px; 
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 25px;
 }
 
-h1 { 
-    color: #961b80; 
-    margin: 0; 
+h1 {
+    color: #961b80;
+    font-size: 2.2em;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.info-section {
+    margin-top: 15px;
+}
+
+.info-section p {
+    line-height: 1.8;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.info-section strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.card-cidade {
+    width: 55%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-cidade h2 {
+    color: #333;
+    font-size: 1.5em;
     margin-bottom: 20px;
+    font-weight: 700;
 }
 
-p { 
-    line-height: 1.6; 
-    margin-bottom: 10px;
+ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-ul { 
-    list-style-type: none; 
-    padding: 0; 
+.cidade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
-.city-item { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    background-color: #f9f9f9; 
-    border: 1px solid #eee; 
-    padding: 10px 15px; 
-    margin-bottom: 8px; 
-    border-radius: 4px; 
-    flex-wrap: wrap; 
+.cidade-item:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border-color: #d0d0d0;
 }
 
-.weather-btn { 
-    background-color: #5c67f2; 
-    color: white; 
-    border: none; 
-    padding: 8px 12px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-size: 0.9em; 
-    white-space: nowrap; 
+.cidade-info {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 200px;
 }
 
-.weather-btn:hover { 
-    background-color: #4a54c2; 
+.cidade-info strong {
+    color: #333;
+    font-weight: 600;
 }
 
-.weather-info { 
-    margin-top: 10px; 
-    padding: 10px; 
-    background-color: #eef; 
-    border-radius: 4px; 
-    font-size: 0.9em; 
-    width: 100%; 
-    text-align: center; 
+.cidade-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
-.loader { 
-    border: 4px solid #f3f3f3; 
-    border-top: 4px solid #961b80; 
-    border-radius: 50%; 
-    width: 20px; 
-    height: 20px; 
-    animation: spin 1s linear infinite; 
-    display: none; 
-    margin-left: 10px; 
+.cidade-nome {
+    font-weight: 600;
+    color: #333;
 }
 
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.cidade-populacao {
+    font-size: 0.9em;
+    color: #666;
+}
 
-a.back-link {
-    color: #961b80; 
-    text-decoration: none; 
-    display: inline-block; 
-    margin-top: 20px; 
+.cidade-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #d4a5d4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #961b80;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.clima-btn {
+    background-color: #961b80;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 150px;
+}
+
+.clima-btn:hover {
+    background-color: #b93ca3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(150, 27, 128, 0.3);
+}
+
+.clima-btn:active {
+    transform: translateY(0);
+}
+
+.clima-info {
+    margin-top: 8px;
+    padding: 12px 15px;
+    background-color: #f0e6f6;
+    border-left: 4px solid #961b80;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #333;
+    width: 100%;
+    flex-basis: 100%;
+    order: 3;
+}
+
+.clima-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.clima-info strong {
+    color: #961b80;
+}
+
+.carregamento {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #961b80;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+    display: none;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .card {
+        flex-direction: column;
+    }
+
+    .card-header {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 25px;
+    }
+
+    .card-cidade {
+        width: 100%;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .card-cidade h2 {
+        font-size: 1.3em;
+    }
+
+    .cidade-item {
+        flex-wrap: wrap;
+    }
+
+    .cidade-info {
+        flex-basis: 100%;
+        margin-bottom: 10px;
+    }
+
+    .clima-button-container {
+        flex-basis: 100%;
+    }
+
+    .clima-btn {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .card-header,
+    .card-cidade {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .flag-img {
+        height: 200px;
+        margin-bottom: 20px;
+    }
+
+    .card-cidade h2 {
+        font-size: 1.1em;
+    }
+
+    .cidade-item {
+        padding: 12px 15px;
+    }
+
+    .cidade-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+    }
+
+    .clima-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
 }

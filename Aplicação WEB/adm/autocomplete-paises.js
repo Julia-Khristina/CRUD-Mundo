@@ -137,28 +137,22 @@ function setupAutocomplete(inputElementId, listContainerId, hiddenIdElementId, p
     });
 }
 
-// 5. Inicialização para os dois campos (Cadastro e Edição)
+// iniciação dos campos cadastro e alteração
 document.addEventListener('DOMContentLoaded', (event) => {
-    // Autocomplete para o Modal de Cadastro
+    // Modal de Cadastro
     setupAutocomplete(
-        "cidade-pais-input",    // ID do input de texto
-        "cidade-pais-list",     // ID do container da lista
-        "cidade-pais-id",       // ID do input hidden para o ID do País
-        "adm/autocomplete-paises.php" // Endpoint PHP (vamos criar na próxima fase)
+        "cidade-pais-input", // ID do input de texto
+        "cidade-pais-list", // ID do container da lista
+        "cidade-pais-id", // ID do input hidden para o ID do País
+        "autocomplete-paises.php" // Endpoint PHP 
     );
 
-    // Autocomplete para o Modal de Edição
+    // Modal de Edição
     setupAutocomplete(
-        "editar-pais-input",    // ID do input de texto
-        "editar-pais-list",     // ID do container da lista
-        "editar-pais-id",       // ID do input hidden para o ID do País
-        "adm/autocomplete-paises.php" // Endpoint PHP
+        "editar-pais-input",    
+        "editar-pais-list",     
+        "editar-pais-id",       
+        "autocomplete-paises.php" 
     );
 
-    setupAutocomplete(
-        "main-search-input",    // ID do input de texto
-        "main-search-list",     // ID do container da lista
-        "main-search-id",       // ID do input hidden para o ID do País
-        "adm/autocomplete-paises.php" // Endpoint PHP
-    );
 });
