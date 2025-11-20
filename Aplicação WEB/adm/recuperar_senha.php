@@ -4,74 +4,63 @@ include '../conexao.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $stmt = $conexao->prepare("SELECT * FROM Usuarios WHERE id = ?");
+
+    $stmt = $conexao->prepare("SELECT * FROM usuario WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
+
     $result = $stmt->get_result();
-    if ($result && $result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        echo json_encode($user);
-    } else {
-        echo json_encode(['error' => 'Usuário não encontrado!']);
-    }
+
+    echo json_encode(
+        $result->num_rows > 0
+            ? $result->fetch_assoc()
+            : ['error' => 'Usuário não encontrado!']
+    );
+
     $stmt->close();
-    exit(); 
+    exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $mensagem_para_sessao = '';
-    $tipo_mensagem = 'erro'; 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (isset($_POST['email'], $_POST['senha'])) {
-        $email = $_POST['email'];
-        $senha = $_POST['senha']; 
-
-        $checkStmt = $conexao->prepare("SELECT status FROM Usuarios WHERE email = ?");
-        $checkStmt->bind_param("s", $email);
-        $checkStmt->execute();
-        $checkStmt->bind_result($status);
-
-        if ($checkStmt->fetch()) {
-    
-    if ($status === 'Bloqueado') {
-        $mensagem_para_sessao = "Usuário bloqueado. Não é possível alterar a senha.";
-        $checkStmt->close(); 
-    } else {
-        $checkStmt->close(); 
-
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-        $stmt_update_password = $conexao->prepare("UPDATE Usuarios SET senha=? WHERE email=?");
-        $stmt_update_password->bind_param("ss", $senha_hash, $email);
-
-        if ($stmt_update_password->execute()) {
-            $mensagem_para_sessao = "Senha alterada com sucesso!";
-            $tipo_mensagem = 'sucesso';
-        } else {
-            $mensagem_para_sessao = "Erro ao atualizar a senha: " . $stmt_update_password->error;
-        }
-        $stmt_update_password->close();
-    }
-    } else {
-        // Usuário não encontrado
-        $mensagem_para_sessao = "Usuário não encontrado!";
-        $checkStmt->close(); 
+    if (!isset($_POST['email']) || !isset($_POST['senha'])) {
+        $_SESSION['mensagem_erro'] = "Dados incompletos!";
+        header("Location: adm.php");
+        exit();
     }
 
-    } else {
-       
-        $mensagem_para_sessao = "Dados incompletos para a atualização da senha!";
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    // Verifica se existe usuário com o e-mail informado
+    $checkStmt = $conexao->prepare("SELECT id FROM usuario WHERE email=?");
+    $checkStmt->bind_param("s", $email);
+    $checkStmt->execute();
+    $result = $checkStmt->get_result();
+    $checkStmt->close();
+
+    if ($result->num_rows == 0) {
+        $_SESSION['mensagem_erro'] = "Usuário não encontrado!";
+        header("Location: adm.php");
+        exit();
     }
 
-    $conexao->close(); 
+    // Atualiza senha
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-    if ($tipo_mensagem === 'sucesso') {
-        $_SESSION['mensagem_sucesso'] = $mensagem_para_sessao;
+    $update = $conexao->prepare("UPDATE usuario SET senha=? WHERE email=?");
+    $update->bind_param("ss", $senha_hash, $email);
+
+    if ($update->execute()) {
+        $_SESSION['mensagem_sucesso'] = "Senha alterada com sucesso!";
     } else {
-        $_SESSION['mensagem_erro'] = $mensagem_para_sessao;
+        $_SESSION['mensagem_erro'] = "Erro ao atualizar: " . $update->error;
     }
+
+    $update->close();
+    $conexao->close();
+
     header("Location: adm.php");
     exit();
-
 }
 ?>

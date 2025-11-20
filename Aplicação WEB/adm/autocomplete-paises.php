@@ -22,7 +22,7 @@ $sql = "SELECT id, nome FROM Paises WHERE nome LIKE ? ORDER BY nome ASC LIMIT 10
 
 $stmt = $conn->prepare($sql);
 
-$param = "%" . $searchTerm . "%";
+$param = $searchTerm . "%";
 $stmt->bind_param("s", $param); 
 $stmt->execute();
 $result = $stmt->get_result();
